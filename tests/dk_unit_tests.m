@@ -1,0 +1,195 @@
+function tests = dk_unit_tests
+% Unit tests for d_k computation and marker splitting using random data
+%
+%
+% 
+    addpath('../programs');
+    tests = functiontests(localfunctions);
+end
+
+%% --- D_K COMPUTATION TESTS ---
+
+function testDkDimensions(testCase)
+    % test that d_k has the correct dimensions
+    n_markers = randi([3, 10]);
+    n_frames = randi([1, 20]);
+    
+    bodyA = createRandomBody(n_markers);
+    bodyB = createRandomBody(n_markers);
+    samples = createRandomSamples(n_markers, n_markers, n_frames);
+    
+    d_k = dk_from_sample_input(samples, bodyA, bodyB);
+    
+    verifyEqual(testCase, size(d_k), [n_frames, 3]);
+    verifyTrue(testCase, all(isfinite(d_k(:))), ...
+        'd_k should not contain NaN or Inf');
+end
+
+function testDkIdentityTransform(testCase)
+    % test d_k when both bodies are at same pose (identity transform)
+    n_markers = randi([4, 8]);
+    markers = randn(n_markers, 3) * 5;
+    
+    bodyA.markers = markers;
+    bodyA.tip = randn(1, 3) * 10;
+    bodyA.N_markers = n_markers;
+    
+    bodyB.markers = markers;
+    bodyB.tip = randn(1, 3) * 10;
+    bodyB.N_markers = n_markers;
+    
+    samples.N_samps = 1;
+    samples.A_markers = zeros(n_markers, 3, 1);
+    samples.B_markers = zeros(n_markers, 3, 1);
+    samples.A_markers(:, :, 1) = markers;
+    samples.B_markers(:, :, 1) = markers;
+    
+    d_k = dk_from_sample_input(samples, bodyA, bodyB);
+    
+    verifyEqual(testCase, d_k(1, :), bodyA.tip, 'AbsTol', 1e-6, ...
+        'With identity transform, d_k should equal bodyA.tip');
+end
+
+function testDkKnownTransform(testCase)
+    % test d_k with known transformation
+    n_markers = randi([4, 8]);
+    bodyA.markers = randn(n_markers, 3) * 5;
+    bodyA.tip = randn(1, 3) * 10;
+    bodyA.N_markers = n_markers;
+    
+    bodyB.markers = randn(n_markers, 3) * 5;
+    bodyB.tip = randn(1, 3) * 10;
+    bodyB.N_markers = n_markers;
+    
+    % generate random transforms
+    [Q_A, ~] = qr(randn(3, 3));
+    if det(Q_A) < 0, Q_A(:, 1) = -Q_A(:, 1); end
+    R_A = Q_A;
+    t_A = randn(3, 1) * 20;
+    
+    [Q_B, ~] = qr(randn(3, 3));
+    if det(Q_B) < 0, Q_B(:, 1) = -Q_B(:, 1); end
+    R_B = Q_B;
+    t_B = randn(3, 1) * 20;
+    
+    % apply to markers
+    samples.N_samps = 1;
+    samples.A_markers = zeros(n_markers, 3, 1);
+    samples.B_markers = zeros(n_markers, 3, 1);
+    samples.A_markers(:, :, 1) = (R_A * bodyA.markers')' + t_A';
+    samples.B_markers(:, :, 1) = (R_B * bodyB.markers')' + t_B';
+    
+    d_k = dk_from_sample_input(samples, bodyA, bodyB);
+    
+    % expected: tip_A -> tracker -> B frame
+    tip_tracker = R_A * bodyA.tip' + t_A;
+    tip_B = R_B' * (tip_tracker - t_B);
+    expected_d_k = tip_B';
+    
+    verifyEqual(testCase, d_k(1, :), expected_d_k, 'AbsTol', 1e-4);
+end
+
+function testDkConsistency(testCase)
+    % test that d_k computation is consistent
+    n_markers = randi([4, 8]);
+    n_frames = randi([5, 15]);
+    
+    bodyA = createRandomBody(n_markers);
+    bodyB = createRandomBody(n_markers);
+    samples = createRandomSamples(n_markers, n_markers, n_frames);
+    
+    d_k_1 = dk_from_sample_input(samples, bodyA, bodyB);
+    d_k_2 = dk_from_sample_input(samples, bodyA, bodyB);
+    
+    verifyEqual(testCase, d_k_1, d_k_2, 'AbsTol', 1e-10);
+end
+
+function testDkMultipleFrames(testCase)
+    % test d_k with multiple frames
+    n_markers = randi([4, 8]);
+    n_frames = randi([10, 30]);
+    
+    bodyA = createRandomBody(n_markers);
+    bodyB = createRandomBody(n_markers);
+    samples = createRandomSamples(n_markers, n_markers, n_frames);
+    
+    d_k = dk_from_sample_input(samples, bodyA, bodyB);
+    
+    % verify each frame is finite
+    for i = 1:n_frames
+        verifyTrue(testCase, all(isfinite(d_k(i, :))), ...
+            sprintf('Frame %d should have finite d_k', i));
+    end
+end
+
+%% --- MARKER SPLITTING TESTS ---
+
+function testMarkerSplitting(testCase)
+    % test that markers are correctly split into A, B, D
+    N_A = randi([3, 8]);
+    N_B = randi([3, 8]);
+    N_D = randi([0, 5]);
+    N_S = N_A + N_B + N_D;
+    n_frames = randi([1, 10]);
+    
+    all_markers = randn(N_S, 3, n_frames);
+    
+    A_markers = all_markers(1:N_A, :, :);
+    B_markers = all_markers(N_A+1:N_A+N_B, :, :);
+    if N_D > 0
+        D_markers = all_markers(N_A+N_B+1:end, :, :);
+    else
+        D_markers = zeros(0, 3, n_frames);
+    end
+    
+    verifyEqual(testCase, size(A_markers), [N_A, 3, n_frames]);
+    verifyEqual(testCase, size(B_markers), [N_B, 3, n_frames]);
+    verifyEqual(testCase, size(D_markers), [N_D, 3, n_frames]);
+end
+
+function testMarkerSplittingNoOverlap(testCase)
+    % test that split markers don't overlap
+    N_A = randi([3, 6]);
+    N_B = randi([3, 6]);
+    N_D = randi([2, 5]);
+    N_S = N_A + N_B + N_D;
+    n_frames = 1;
+    
+    % create markers with unique values for testing
+    all_markers = zeros(N_S, 3, n_frames);
+    for i = 1:N_S
+        all_markers(i, :, 1) = [i, i*10, i*100];
+    end
+    
+    A_markers = all_markers(1:N_A, :, :);
+    B_markers = all_markers(N_A+1:N_A+N_B, :, :);
+    D_markers = all_markers(N_A+N_B+1:end, :, :);
+    
+    % verify first element of each is different
+    verifyNotEqual(testCase, A_markers(1,1,1), B_markers(1,1,1));
+    verifyNotEqual(testCase, B_markers(1,1,1), D_markers(1,1,1));
+    verifyNotEqual(testCase, A_markers(1,1,1), D_markers(1,1,1));
+end
+
+%% --- HELPER FUNCTIONS FOR RANDOM DATA ---
+
+function body = createRandomBody(n_markers)
+    % create random body definition
+    body.markers = randn(n_markers, 3) * 10;
+    body.tip = randn(1, 3) * 15;
+    body.N_markers = n_markers;
+    body.name = 'RandomBody';
+end
+
+function samples = createRandomSamples(n_A, n_B, n_frames)
+    % create random sample data
+    samples.N_samps = n_frames;
+    samples.N_A = n_A;
+    samples.N_B = n_B;
+    samples.N_D = 0;
+    samples.N_S = n_A + n_B;
+    
+    samples.A_markers = randn(n_A, 3, n_frames) * 100;
+    samples.B_markers = randn(n_B, 3, n_frames) * 100;
+    samples.D_markers = zeros(0, 3, n_frames);
+end
