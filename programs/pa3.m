@@ -8,9 +8,6 @@
 % Or just run: pa3 (will prompt for letter)
 
 function pa3(mode, letter_index)
-
-    tic;
-
     if nargin < 2
         error("Please provide the problem to solve as an argument. Example: pa3('debug', 'a')");
     end
@@ -137,6 +134,4 @@ function pa3(mode, letter_index)
     write_aux_file(letter_index, mode, search_method, ...
     outputFile, data_dir, output_dir, ...
     build_time, query_time, diff_mag);
-
-    toc;
 end
