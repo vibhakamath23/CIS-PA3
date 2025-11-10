@@ -88,16 +88,16 @@ function pa3(mode, letter_index)
 
     % Choose search method: 'linear', 'octree', or 'boundingSphere'
     search_method = 'linear';   
-
-    build_time = 0; % to keep track of data structure builds
     
-    % assign corresponding function 
+    % assign corresponding function decl
+    build_time = 0;
+
     switch search_method
         case 'linear'
             find_closest = @find_closest_point_mesh;
         case 'octree'
             % build octree if not present
-            t_build_start = tic;
+            t_build_start = tic; % keep track of time for aux file
             if ~isfield(mesh, 'octree')
                 mesh.octree = build_octree(mesh);
             end
@@ -115,7 +115,7 @@ function pa3(mode, letter_index)
             error('Unknown search method: %s', search_method);
     end
     
-    t_query_start = tic; % to keep track of query time
+    t_query_start = tic;
 
     % Main loop
     for k = 1:N
@@ -130,9 +130,7 @@ function pa3(mode, letter_index)
     % Write output file
     output_filename = sprintf('pa3-%s-%s-Output.txt', letter_index, mode);
     outputFile = fullfile(output_dir, output_filename);
-
-    write_output3(outputFile, samples.N_samps, d_k, c_k, diff_mag);
-    
+    write_output3(output_filename, samples.N_samps, d_k, c_k, diff_mag)
     fprintf('Output written to: %s\n', outputFile);
     
     % Write aux File
