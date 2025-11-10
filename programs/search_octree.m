@@ -1,4 +1,4 @@
-function [point, min_dist] = search_octree(query, node, mesh)
+function [point, min_dist] = search_octree(query, mesh)
 % aearch octree for closest point
 
     if node.is_leaf
