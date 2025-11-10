@@ -27,8 +27,6 @@ function mesh = read_mesh_file(filename)
     line = fgetl(fid);
     mesh.N_vertices = str2double(strtrim(line));
     
-    fprintf('Reading %d vertices...\n', mesh.N_vertices);
-    
     % Read vertices
     mesh.vertices = zeros(mesh.N_vertices, 3);
     for i = 1:mesh.N_vertices
@@ -43,8 +41,6 @@ function mesh = read_mesh_file(filename)
     % Read number of triangles
     line = fgetl(fid);
     mesh.N_triangles = str2double(strtrim(line));
-    
-    fprintf('Reading %d triangles...\n', mesh.N_triangles);
     
     % Read triangles
     mesh.triangles = zeros(mesh.N_triangles, 3);
