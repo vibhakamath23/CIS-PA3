@@ -1,5 +1,3 @@
-
-
 function [d_k] = dk_from_sample_input(samples, bodyA, bodyB)
 % Computes pointer tip positions and closest mesh points
 % Inputs:
@@ -13,7 +11,6 @@ function [d_k] = dk_from_sample_input(samples, bodyA, bodyB)
 
     N = samples.N_samps;
     d_k = zeros(N, 3);
-    diff_mag = zeros(N, 1);
 
     for k = 1:N
         % Get LED marker positions for this frame
@@ -32,9 +29,7 @@ function [d_k] = dk_from_sample_input(samples, bodyA, bodyB)
         F_B_inv = inv_homog(F_B);
         d_k_hom = F_B_inv * A_tip_tracker;
         d_k(k, :) = d_k_hom(1:3)';
-
-        if mod(k, 10) == 0
-            fprintf('Processed frame %d/%d\n', k, N);
-        end
+        
     end
 end
+
