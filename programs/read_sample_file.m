@@ -29,11 +29,9 @@ function samples = read_sample_file(filename, bodyA, bodyB)
     
     % Read first line
     line = fgetl(fid);
-    fprintf('First line: %s\n', line);
     
     % Extract all numbers from the first line
     number_strings = regexp(line, '[-\d.]+', 'match');
-    fprintf('Found %d number strings\n', length(number_strings));
     
     numbers = str2double(number_strings);
     
@@ -51,8 +49,6 @@ function samples = read_sample_file(filename, bodyA, bodyB)
     end
 
     all_markers = zeros(N_S, 3, samples.N_samps);
-    
-    fprintf('Reading %d sample frames with %d markers each...\n', samples.N_samps, N_S);
     
     % Read each frame
     for frame = 1:samples.N_samps
@@ -77,7 +73,6 @@ function samples = read_sample_file(filename, bodyA, bodyB)
 
     % Split markers
     samples = split_marker_values(samples, bodyA, bodyB);
-    fprintf('Split markers: N_A=%d, N_B=%d, N_D=%d\n', samples.N_A, samples.N_B, samples.N_D);
     
     fprintf('Sample file loaded: %d markers x %d frames\n', N_S, samples.N_samps);
 end
