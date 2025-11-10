@@ -1,4 +1,4 @@
-function write_output3(filename, N_samps, d_k, c_k, diff_mag)
+function write_output3(output_filename, N_samps, d_k, c_k, diff_mag)
 % writeOutputPA3 - Writes output file for PA3
 %
 % Input:
@@ -12,13 +12,13 @@ function write_output3(filename, N_samps, d_k, c_k, diff_mag)
 %   Line 0: N_samps, filename
 %   Next N_samps lines: d_x, d_y, d_z, c_x, c_y, c_z, |d_k - c_k|
 
-    fid = fopen(filename, 'w');
+    fid = fopen(output_filename, 'w');
     if fid == -1
-        error('Cannot open output file: %s', filename);
+        error('Cannot open output file: %s', output_filename);
     end
     
     % Write header
-    [~, name, ext] = fileparts(filename);
+    [~, name, ext] = fileparts(output_filename);
     fprintf(fid, '%d, %s%s\n', N_samps, name, ext);
     
     % Write data for each sample
