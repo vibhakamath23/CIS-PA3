@@ -4,11 +4,13 @@
 % Aiza Maksutova and Vibha Kamath
 % 
 %
-% Usage: pa3('debug', 'a') or pa3('debug', 'b') or pa3('debug', 'c') etc.
+% Usage: pa3('a') or pa3('b') or pa3('c') etc.
 % Or just run: pa3 (will prompt for letter)
 
 function pa3(mode, letter_index)
-    
+
+    tic;
+
     if nargin < 2
         error("Please provide the problem to solve as an argument. Example: pa3('debug', 'a')");
     end
@@ -43,7 +45,7 @@ function pa3(mode, letter_index)
     end
     
     % Directory config
-    data_dir = '../Data';
+    data_dir = 'Data';
     output_dir = './outputs';
     
     % Create output directory if it doesn't exist
@@ -63,10 +65,6 @@ function pa3(mode, letter_index)
         sample_filename = sprintf('PA3-%s-Unknown-SampleReadingsTest.txt', upper(letter_index));
     end
     sampleFile = fullfile(data_dir, sample_filename);
-    
-    % Output filename
-    output_filename = sprintf('pa3-%s-%s-Output.txt', letter_index, mode);
-    outputFile = fullfile(output_dir, output_filename);
     
     fprintf('PA3: Reading input files...\n');
     
@@ -88,23 +86,59 @@ function pa3(mode, letter_index)
     c_k = zeros(N, 3);
     diff_mag = zeros(N, 1);
 
+    % Choose search method: 'linear', 'octree', or 'boundingSphere'
+    search_method = 'linear';   
+
+    build_time = 0; % to keep track of data structure builds
+    
+    % assign corresponding function 
+    switch search_method
+        case 'linear'
+            find_closest = @find_closest_point_mesh;
+        case 'octree'
+            % build octree if not present
+            t_build_start = tic;
+            if ~isfield(mesh, 'octree')
+                mesh.octree = build_octree(mesh);
+            end
+            build_time = toc(t_build_start);
+            find_closest = @search_octree;
+        case 'boundingSphere'
+            % Build spheres if not present
+            t_build_start = tic;
+            if ~isfield(mesh, 'bounding_spheres')
+                mesh = precompute_bounding_spheres(mesh);
+            end
+            build_time = toc(t_build_start);
+            find_closest = @bounding_sphere_find_closest_point_mesh;
+        otherwise
+            error('Unknown search method: %s', search_method);
+    end
+    
+    t_query_start = tic; % to keep track of query time
+
+    % Main loop
     for k = 1:N
-        c_k(k, :) = find_closest_point_mesh(d_k(k, :), mesh);
+        c_k(k, :) = find_closest(d_k(k, :), mesh);
+        diff_mag(k) = norm(d_k(k, :) - c_k(k, :));
     end
 
-    % Difference magnitude
-    diff_mag(k) = norm(d_k(k, :) - c_k(k, :));
+    query_time = toc(t_query_start);
      
     fprintf('Writing output file...\n');
     
     % Write output file
+    output_filename = sprintf('pa3-%s-%s-Output.txt', letter_index, mode);
+    outputFile = fullfile(output_dir, output_filename);
+
     write_output3(outputFile, samples.N_samps, d_k, c_k, diff_mag);
     
-    fprintf('PA3 complete! Output written to: %s\n', outputFile);
+    fprintf('Output written to: %s\n', outputFile);
     
-    % Display summary statistics
-    fprintf('\nSummary Statistics:\n');
-    fprintf('Mean difference magnitude: %.6f mm\n', mean(diff_mag));
-    fprintf('Max difference magnitude: %.6f mm\n', max(diff_mag));
-    fprintf('Min difference magnitude: %.6f mm\n', min(diff_mag));
+    % Write aux File
+    write_aux_file(letter_index, mode, search_method, ...
+    outputFile, data_dir, output_dir, ...
+    build_time, query_time, diff_mag);
+
+    toc;
 end
