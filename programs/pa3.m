@@ -83,44 +83,46 @@ function pa3(mode, letter_index)
     c_k = zeros(N, 3);
     diff_mag = zeros(N, 1);
 
+    build_time = 0; % to keep track of build time for data structures
+
     % Choose search method: 'linear', 'octree', or 'boundingSphere'
-    search_method = 'linear';   
+    search_method = 'boundingSphere';   % <--- just change this line
     
     % assign corresponding function decl
-    build_time = 0;
-
-    switch search_method
-        case 'linear'
-            find_closest = @find_closest_point_mesh;
-        case 'octree'
-            % build octree if not present
-            t_build_start = tic; % keep track of time for aux file
-            if ~isfield(mesh, 'octree')
-                mesh.octree = build_octree(mesh);
-            end
-            build_time = toc(t_build_start);
-            find_closest = @search_octree;
-        case 'boundingSphere'
-            % Build spheres if not present
-            t_build_start = tic;
-            if ~isfield(mesh, 'bounding_spheres')
-                mesh = precompute_bounding_spheres(mesh);
-            end
-            build_time = toc(t_build_start);
-            find_closest = @bounding_sphere_find_closest_point_mesh;
-        otherwise
-            error('Unknown search method: %s', search_method);
-    end
-    
-    t_query_start = tic;
-
-    % Main loop
     for k = 1:N
-        c_k(k, :) = find_closest(d_k(k, :), mesh);
-        diff_mag(k) = norm(d_k(k, :) - c_k(k, :));
-    end
+        switch search_method
+            case 'linear'
+                t_query_start = tic;
+                c_k(k, :) = find_closest_point_mesh(d_k(k, :), mesh);
+            case 'octree'
+                t_build_start = tic; 
 
-    query_time = toc(t_query_start);
+                if ~isfield(mesh, 'octree')
+                mesh.octree = build_octree(mesh);
+                end
+
+                build_time = toc(t_build_start);
+                
+                t_query_start = tic; % keep track of query time
+                c_k(k, :) = search_octree(d_k(k, :), mesh.octree, mesh);
+            case 'boundingSphere'
+                t_build_start = tic;
+
+                if ~isfield(mesh, 'bounding_spheres')
+                    mesh = precompute_bounding_spheres(mesh);
+                end
+                build_time = toc(t_build_start);
+                
+                t_query_start = tic;
+                c_k(k, :) = bounding_sphere_find_closest_point_mesh(d_k(k, :), mesh);
+            otherwise
+                error('Unknown search method: %s', search_method);
+        end
+    
+        % Difference magnitude
+        diff_mag(k) = norm(d_k(k, :) - c_k(k, :));
+        query_time = toc(t_query_start);
+    end
      
     fprintf('Writing output file...\n');
     
@@ -135,3 +137,4 @@ function pa3(mode, letter_index)
     outputFile, data_dir, output_dir, ...
     build_time, query_time, diff_mag);
 end
+
