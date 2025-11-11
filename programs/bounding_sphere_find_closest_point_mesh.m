@@ -66,3 +66,4 @@ function point = bounding_sphere_find_closest_point_mesh(a, mesh)
         end
     end
 end
+
