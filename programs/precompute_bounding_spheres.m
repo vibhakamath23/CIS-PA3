@@ -1,6 +1,11 @@
 function mesh = precompute_bounding_spheres(mesh)
-% Precompute bounding sphere for each triangle
-% Returns smallest sphere that contains all three vertices
+% Precomputes bounding sphere (center and radius) for each triangle in mesh. Sphere is
+% defined by triangle centroid and maximum distance to vertices.
+%
+% Inputs: 
+%    mesh (struct with vertices and triangles)
+% Outputs: 
+%    mesh (updated with bounding spheres field containing centers and radii)
 
     N_triangles = size(mesh.triangles, 1);
     centers = zeros(N_triangles, 3);
