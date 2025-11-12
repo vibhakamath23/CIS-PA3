@@ -7,7 +7,7 @@ function tri_indices = find_triangles_in_box(triangle_indices, mesh, min_bound, 
 %    min bound
 %    max bound (1 × 3 box corners)
 % Outputs: 
-%   tri indices (list of triangles intersecting box)
+%    tri indices (list of triangles intersecting box)
 
     tri_indices = [];
     
