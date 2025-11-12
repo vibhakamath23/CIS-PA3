@@ -3,7 +3,6 @@ function [d_k] = dk_from_sample_input(samples, bodyA, bodyB)
 % input:
 %   samples - struct containing split marker arrays
 %   bodyA, bodyB - structs with tip positions and marker locations
-%   mesh - surface mesh structure
 
 % Output:
 %   d_k - pointer tip positions in bone frame (N_samps x 3)
