@@ -12,10 +12,9 @@ function point = bounding_sphere_find_closest_point_mesh(a, mesh)
 % Output:
 %   point - 1x3 coordinates of closest point on mesh
 %
-% Strategy:
-%   1. Use bounding sphere culling to eliminate distant triangles
-%   2. Sort remaining triangles by distance to query point
-%   3. Use early termination when possible
+% - Uses bounding spheres to eliminate distant triangles
+% - Sorts remaining triangles by distance to query point (lower bound)
+% - Uses early termination when possible
     
     N_triangles = size(mesh.triangles, 1);
     
