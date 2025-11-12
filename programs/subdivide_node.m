@@ -1,5 +1,15 @@
 function node = subdivide_node(node, mesh, depth, max_depth, max_triangles)
-% recursively subdivide octree node
+% Recursively subdivides an octree node into eight children based on depth and triangle
+% count criteria.
+% 
+% Inputs: 
+%     node (current node)
+%     mesh
+%     depth (current depth)
+%     max depth
+%     max triangles
+% Outputs: 
+%     node (subdivided node with children)
 
     % stop conditions
     if depth >= max_depth || length(node.triangle_indices) <= max_triangles
