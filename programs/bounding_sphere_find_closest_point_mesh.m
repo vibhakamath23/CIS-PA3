@@ -1,5 +1,5 @@
 function point = bounding_sphere_find_closest_point_mesh(a, mesh)
-% efficient closest point search using spatial partitioning
+% closest point search using bounding spheres lower bound sort and search
 %
 % Input:
 %   a - 1x3 coordinates of a point
