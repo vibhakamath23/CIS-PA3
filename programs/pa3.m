@@ -129,7 +129,7 @@ function pa3(mode, letter_index)
     % Write output file
     output_filename = sprintf('pa3-%s-%s-Output.txt', letter_index, mode);
     outputFile = fullfile(output_dir, output_filename);
-    write_output3(output_filename, samples.N_samps, d_k, c_k, diff_mag)
+    write_output3(outputFile, samples.N_samps, d_k, c_k, diff_mag)
     fprintf('Output written to: %s\n', outputFile);
     
     % Write aux File
