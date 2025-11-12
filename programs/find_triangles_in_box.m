@@ -2,7 +2,10 @@ function tri_indices = find_triangles_in_box(triangle_indices, mesh, min_bound, 
 % Determines which triangles from a list intersect a given bounding box using bounding box overlap test.
 % 
 % Inputs: 
-%   triangle indices (list of candidate triangles), mesh, min bound, max bound (1 × 3 box corners)
+%    triangle indices (list of candidate triangles)
+%    mesh
+%    min bound
+%    max bound (1 × 3 box corners)
 % Outputs: 
 %   tri indices (list of triangles intersecting box)
 
