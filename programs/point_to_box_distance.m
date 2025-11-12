@@ -1,5 +1,13 @@
 function dist = point_to_box_distance(point, box_min, box_max)
-% compute minimum distance from point to axis-aligned bounding box
+% Computes minimum distance from a point to an axis-aligned bounding box. Returns 0
+% if point is inside box.
+% 
+% Inputs: 
+%    point (1 × 3)
+%    box min
+%    box max (1 × 3 box corners)
+% Outputs: 
+%    dist (scalar minimum distance)
 
     % for each dimension, find closest point on box
     closest = zeros(1, 3);
