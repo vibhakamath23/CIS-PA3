@@ -1,5 +1,14 @@
 function [point, min_dist] = search_octree(query, node, mesh)
-% aearch octree for closest point
+% Searches octree for closest point on mesh using recursive traversal with early termination
+% based on bounding box distances.
+%
+% Inputs: 
+%    query (1 × 3 point)
+%    node (octree node)
+%    mesh
+% Outputs: 
+%    point (1 × 3 closest point)
+%    min dist (distance to closest point)
 
     if node.is_leaf
         % leaf node: check all triangles
