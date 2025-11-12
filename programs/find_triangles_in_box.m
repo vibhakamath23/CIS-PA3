@@ -1,6 +1,5 @@
 function tri_indices = find_triangles_in_box(triangle_indices, mesh, min_bound, max_bound)
-% Determines which triangles from a list intersect a given axis-aligned bounding box using
-% bounding box overlap test.
+% Determines which triangles from a list intersect a given bounding box using bounding box overlap test.
 % 
 % Inputs: 
 %   triangle indices (list of candidate triangles), mesh, min bound, max bound (1 × 3 box corners)
@@ -19,11 +18,10 @@ function tri_indices = find_triangles_in_box(triangle_indices, mesh, min_bound, 
         v3 = mesh.vertices(v_indices(3), :);
         
         % check if any vertex is in box or triangle intersects box
-        % simplified: check if triangle bounding box intersects node box
         tri_min = min([v1; v2; v3], [], 1);
         tri_max = max([v1; v2; v3], [], 1);
         
-        % Box intersection test
+        % box intersection test
         if all(tri_max >= min_bound) && all(tri_min <= max_bound)
             tri_indices = [tri_indices, tri_idx];
         end
