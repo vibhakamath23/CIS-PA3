@@ -1,9 +1,13 @@
 function octree = build_octree(mesh, max_depth, max_triangles_per_node)
-% build octree structure
+% Constructs octree spatial data structure for mesh by recursively subdividing space into
+% eight octants.
 %
-% Parameters:
-%   max_depth - maximum tree depth (default: 8)
-%   max_triangles_per_node - split threshold (default: 10)
+% Inputs:
+%    mesh: (mesh struct)
+%    max depth: (maximum tree depth, default: 8)
+%    max triangles per node (subdivide threshold, default: 10)
+% Outputs: 
+%    octree (root node struct with bounding box, triangle indices, and children)
 
     if nargin < 2, max_depth = 8; end
     if nargin < 3, max_triangles_per_node = 10; end
