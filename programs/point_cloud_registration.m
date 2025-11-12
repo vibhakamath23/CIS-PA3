@@ -10,6 +10,7 @@ function [R,t,F] = point_cloud_registration(point_cloud1, point_cloud2)
 %     R - rotation matrix (3 x 3)
 %     t - translation vector (3 x 1)
 %     F - combined R, t transform frame F
+
     % calculate the centroids for each point cloud
     point_cloud1 = point_cloud1.';
     point_cloud2 = point_cloud2.';
