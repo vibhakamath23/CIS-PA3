@@ -170,26 +170,3 @@ function testMarkerSplittingNoOverlap(testCase)
     verifyNotEqual(testCase, B_markers(1,1,1), D_markers(1,1,1));
     verifyNotEqual(testCase, A_markers(1,1,1), D_markers(1,1,1));
 end
-
-%% --- HELPER FUNCTIONS FOR RANDOM DATA ---
-
-function body = createRandomBody(n_markers)
-    % create random body definition
-    body.markers = randn(n_markers, 3) * 10;
-    body.tip = randn(1, 3) * 15;
-    body.N_markers = n_markers;
-    body.name = 'RandomBody';
-end
-
-function samples = createRandomSamples(n_A, n_B, n_frames)
-    % create random sample data
-    samples.N_samps = n_frames;
-    samples.N_A = n_A;
-    samples.N_B = n_B;
-    samples.N_D = 0;
-    samples.N_S = n_A + n_B;
-    
-    samples.A_markers = randn(n_A, 3, n_frames) * 100;
-    samples.B_markers = randn(n_B, 3, n_frames) * 100;
-    samples.D_markers = zeros(0, 3, n_frames);
-end
