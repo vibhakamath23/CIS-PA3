@@ -1,8 +1,6 @@
 function tests = dk_unit_tests
 % Unit tests for d_k computation and marker splitting using random data
-%
-%
-% 
+
     addpath('../programs');
     tests = functiontests(localfunctions);
 end
