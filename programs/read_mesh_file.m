@@ -52,8 +52,8 @@ function mesh = read_mesh_file(filename)
         values = str2double(regexp(line, '[-\d.eE]+', 'match'));
 
         % convert from 0-based to 1-based indexing for MATLAB
-        mesh.triangles(i, :) = values(1:3) + 1;  % Add 1 for MATLAB indexing
-        mesh.neighbors(i, :) = values(4:6) + 1;  % Add 1 for MATLAB indexing (note: -1 becomes 0, which is still invalid but not used)
+        mesh.triangles(i, :) = values(1:3) + 1;  % add 1 for MATLAB indexing
+        mesh.neighbors(i, :) = values(4:6) + 1;  % (note: -1 becomes 0, which is still invalid but not used)
     end
     
     fclose(fid);
