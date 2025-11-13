@@ -24,7 +24,7 @@ function write_aux_file(letter_index, mode, search_method, ...
         error('Could not create auxiliary file: %s', auxFile);
     end
 
-    % === Timing Summary ===
+    % timing summary
     total_time = build_time + query_time;
     fprintf(fid, 'Auxiliary Report for pa3-%s-%s-%s-aux.txt:', letter_index, mode, search_method);
     fprintf(fid, '\nSearch method: %s\n', search_method);
@@ -32,7 +32,7 @@ function write_aux_file(letter_index, mode, search_method, ...
     fprintf(fid, 'Query time: %.6f s\n', query_time);
     fprintf(fid, 'Total runtime: %.6f s\n\n', total_time);
 
-    % === Summary statistics on diff_mag ===
+    % summary statistics on diff_mag 
     fprintf(fid, '--- Summary Statistics on diff_mag ---\n');
     fprintf(fid, 'Mean difference magnitude: %.6f mm\n', mean(diff_mag));
     fprintf(fid, 'RMS difference magnitude: %.6f mm\n', sqrt(mean(diff_mag.^2)));
@@ -40,7 +40,7 @@ function write_aux_file(letter_index, mode, search_method, ...
     fprintf(fid, 'Max difference magnitude: %.6f mm\n', max(diff_mag));
     fprintf(fid, 'Min difference magnitude: %.6f mm\n\n', min(diff_mag));
 
-    % === Comparison with debug file (if applicable) ===
+    % comparison with debug file (if applicable)
     if strcmp(mode, 'debug')
         debug_pattern = sprintf('PA3-%s-Debug-Output.txt', upper(letter_index));
         debugFile = fullfile(data_dir, debug_pattern);
@@ -56,15 +56,15 @@ function write_aux_file(letter_index, mode, search_method, ...
                 error('Could not read one or both output files.');
             end
 
-            % Extract coordinates for comparison
+            % extract coordinates for comparison
             userPts = userData(:, 1:3);
             refPts  = refData(:, 1:3);
 
-            % Compute pointwise errors
+            % compute pointwise errors
             errors = userPts - refPts;
             errorMag = sqrt(sum(errors.^2, 2));
 
-            % Summary metrics
+            % summary metrics
             meanErr = mean(errorMag);
             rmsErr = sqrt(mean(errorMag.^2));
             stdErr = std(errorMag);
