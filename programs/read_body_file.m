@@ -21,18 +21,18 @@ function body = read_body_file(filename)
         error('Cannot open file: %s', filename);
     end
     
-    % Read first line
+    % first line
     line = fgetl(fid);
 
     numbers = regexp(line, '[\d.]+', 'match');
 
     body.N_markers = str2double(numbers{1});
     
-    % Set body name
+    % body name
     [~, body.name, ~] = fileparts(filename);
   
     
-    % Read marker positions
+    % marker positions
     body.markers = zeros(body.N_markers, 3);
     for i = 1:body.N_markers
         line = fgetl(fid);
@@ -43,7 +43,7 @@ function body = read_body_file(filename)
         body.markers(i, :) = values(1:3);
     end
     
-    % Read tip position
+    % tip position
     line = fgetl(fid);
     values = str2double(regexp(line, '[-\d.]+', 'match'));
     body.tip = values(1:3);
