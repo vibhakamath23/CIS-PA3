@@ -48,10 +48,11 @@ runtests('bounding_sphere_unit_tests')
 ```
 visualize_find_closest_point_tri_3D
 ```
-6. Unit tests for pivot calibration
+6. Unit tests for point cloud registration
 ```
-runtests('test_pivot_calibration')
+
 ```
+7. Visualization tests for point cloud registration
 
 ## File Directory
 
