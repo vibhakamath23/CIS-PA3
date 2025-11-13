@@ -1,0 +1,36 @@
+Auxiliary Report for pa3-f-debug-boundingSphere-aux.txt:
+Search method: boundingSphere
+Build time: 0.000003 s
+Query time: 0.006793 s
+Total runtime: 0.006796 s
+
+--- Summary Statistics on diff_mag ---
+Mean difference magnitude: 1.403702 mm
+RMS difference magnitude: 1.711490 mm
+Std deviation: 1.013560 mm
+Max difference magnitude: 3.082453 mm
+Min difference magnitude: 0.043218 mm
+
+--- Comparison with Provided Debug Output ---
+Mean error: 0.009933
+RMS error: 0.011832
+Std deviation: 0.006655
+Max error: 0.020000
+Min error: 0.000000
+
+Index   Err_dX   Err_dY   Err_dZ   Err_cX   Err_cY   Err_cZ   |Error|
+    1    -0.010    -0.010     0.000     0.000     0.000     0.000     0.0141
+    2     0.000    -0.010     0.000    -0.010     0.000     0.000     0.0141
+    3    -0.010     0.000     0.010     0.000     0.000     0.000     0.0141
+    4     0.000    -0.010     0.000     0.000     0.000     0.000     0.0100
+    5     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+    6     0.000     0.000     0.000     0.000    -0.010     0.000     0.0100
+    7     0.000    -0.010     0.000    -0.010     0.000     0.000     0.0141
+    8     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+    9    -0.010     0.000     0.000    -0.010     0.000     0.000     0.0141
+   10    -0.010     0.000     0.000    -0.010     0.010     0.010     0.0200
+   11     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+   12    -0.010     0.000     0.000     0.000     0.000     0.000     0.0100
+   13    -0.010    -0.010     0.000     0.000     0.000     0.000     0.0141
+   14     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+   15     0.000     0.000     0.000     0.000     0.010    -0.010     0.0141

@@ -1,0 +1,36 @@
+Auxiliary Report for pa3-b-debug-octree-aux.txt:
+Search method: octree
+Build time: 0.000007 s
+Query time: 0.000160 s
+Total runtime: 0.000167 s
+
+--- Summary Statistics on diff_mag ---
+Mean difference magnitude: 1.466055 mm
+RMS difference magnitude: 1.745834 mm
+Std deviation: 0.981227 mm
+Max difference magnitude: 3.061056 mm
+Min difference magnitude: 0.059259 mm
+
+--- Comparison with Provided Debug Output ---
+Mean error: 0.007869
+RMS error: 0.010328
+Std deviation: 0.006924
+Max error: 0.017321
+Min error: 0.000000
+
+Index   Err_dX   Err_dY   Err_dZ   Err_cX   Err_cY   Err_cZ   |Error|
+    1     0.010     0.000     0.000     0.000     0.000     0.000     0.0100
+    2     0.000     0.010     0.000     0.000     0.000     0.000     0.0100
+    3     0.010     0.000     0.000     0.000     0.000     0.000     0.0100
+    4     0.000     0.010     0.000     0.000     0.000     0.010     0.0141
+    5     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+    6     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+    7     0.000     0.010     0.000     0.000     0.000     0.010     0.0141
+    8     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+    9     0.000     0.010     0.000     0.000     0.010     0.000     0.0141
+   10     0.000     0.010     0.000     0.010     0.000     0.010     0.0173
+   11     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+   12     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+   13     0.000     0.010     0.000     0.000     0.010     0.000     0.0141
+   14     0.000     0.000     0.000     0.000     0.000     0.000     0.0000
+   15     0.000     0.010     0.000     0.000     0.010     0.000     0.0141

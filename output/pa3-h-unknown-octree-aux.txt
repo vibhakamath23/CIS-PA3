@@ -1,0 +1,13 @@
+Auxiliary Report for pa3-h-unknown-octree-aux.txt:
+Search method: octree
+Build time: 0.000004 s
+Query time: 0.000226 s
+Total runtime: 0.000230 s
+
+--- Summary Statistics on diff_mag ---
+Mean difference magnitude: 1.537658 mm
+RMS difference magnitude: 1.699802 mm
+Std deviation: 0.743345 mm
+Max difference magnitude: 3.010488 mm
+Min difference magnitude: 0.276217 mm
+
