@@ -1,7 +1,7 @@
 function write_aux_file(letter_index, mode, search_method, ...
     outputFile, data_dir, output_dir, ...
     build_time, query_time, diff_mag)
-% Creates an auxiliary results file that logs:
+% Creates an auxiliary file that logs:
 %   - Search method and timing (build/query/total)
 %   - Summary statistics of diff_mag
 %   - Comparison between output file and provided debug file (if debug mode)
