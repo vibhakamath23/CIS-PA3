@@ -1,4 +1,5 @@
 function tests = test_find_closest_point_tri
+    addpath('../programs');
     tests = functiontests(localfunctions);
 end
 
