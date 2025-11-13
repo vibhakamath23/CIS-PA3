@@ -10,7 +10,7 @@ function samples = split_marker_values(samples, bodyA, bodyB)
     samples.N_B = bodyB.N_markers;
     samples.N_D = samples.N_S - samples.N_A - samples.N_B;
 
-    % Split the all_markers array
+    % split the all_markers array
     samples.A_markers = samples.all_markers(1:samples.N_A, :, :);
     samples.B_markers = samples.all_markers(samples.N_A+1:samples.N_A+samples.N_B, :, :);
 
