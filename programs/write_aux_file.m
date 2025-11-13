@@ -1,7 +1,7 @@
 function write_aux_file(letter_index, mode, search_method, ...
     outputFile, data_dir, output_dir, ...
     build_time, query_time, diff_mag)
-% Creates an auxiliary file that logs:
+% Creates an auxiliary results file that logs:
 %   - Search method and timing (build/query/total)
 %   - Summary statistics of diff_mag
 %   - Comparison between output file and provided debug file (if debug mode)
@@ -24,7 +24,7 @@ function write_aux_file(letter_index, mode, search_method, ...
         error('Could not create auxiliary file: %s', auxFile);
     end
 
-    % timing summary
+    % === Timing Summary ===
     total_time = build_time + query_time;
     fprintf(fid, 'Auxiliary Report for pa3-%s-%s-%s-aux.txt:', letter_index, mode, search_method);
     fprintf(fid, '\nSearch method: %s\n', search_method);
@@ -32,7 +32,7 @@ function write_aux_file(letter_index, mode, search_method, ...
     fprintf(fid, 'Query time: %.6f s\n', query_time);
     fprintf(fid, 'Total runtime: %.6f s\n\n', total_time);
 
-    % summary statistics on diff_mag 
+    % === Summary statistics on diff_mag ===
     fprintf(fid, '--- Summary Statistics on diff_mag ---\n');
     fprintf(fid, 'Mean difference magnitude: %.6f mm\n', mean(diff_mag));
     fprintf(fid, 'RMS difference magnitude: %.6f mm\n', sqrt(mean(diff_mag.^2)));
@@ -40,7 +40,7 @@ function write_aux_file(letter_index, mode, search_method, ...
     fprintf(fid, 'Max difference magnitude: %.6f mm\n', max(diff_mag));
     fprintf(fid, 'Min difference magnitude: %.6f mm\n\n', min(diff_mag));
 
-    % comparison with debug file (if applicable)
+    % === Comparison with debug file (if applicable) ===
     if strcmp(mode, 'debug')
         debug_pattern = sprintf('PA3-%s-Debug-Output.txt', upper(letter_index));
         debugFile = fullfile(data_dir, debug_pattern);
@@ -56,32 +56,40 @@ function write_aux_file(letter_index, mode, search_method, ...
                 error('Could not read one or both output files.');
             end
 
-            % extract coordinates for comparison
-            userPts = userData(:, 1:3);
-            refPts  = refData(:, 1:3);
-
-            % compute pointwise errors
+            % Extract coordinates for comparison (use first 6 columns)
+            if size(userData, 2) < 6 || size(refData, 2) < 6
+                fclose(fid);
+                error('Output or debug file does not contain six coordinate columns.');
+            end
+            
+            % Compare first 6 coordinate columns (dk and ck)
+            userPts = userData(:, 1:6);
+            refPts  = refData(:, 1:6);
+            
+            % Compute pointwise differences across all 6 columns
             errors = userPts - refPts;
             errorMag = sqrt(sum(errors.^2, 2));
-
-            % summary metrics
+            
+            % Summary metrics
             meanErr = mean(errorMag);
             rmsErr = sqrt(mean(errorMag.^2));
             stdErr = std(errorMag);
             maxErr = max(errorMag);
             minErr = min(errorMag);
-
+            
             fprintf(fid, 'Mean error: %.6f\n', meanErr);
             fprintf(fid, 'RMS error: %.6f\n', rmsErr);
             fprintf(fid, 'Std deviation: %.6f\n', stdErr);
             fprintf(fid, 'Max error: %.6f\n', maxErr);
             fprintf(fid, 'Min error: %.6f\n\n', minErr);
-
-            fprintf(fid, 'Index   Error_X    Error_Y    Error_Z    |Error|\n');
+            
+            fprintf(fid, 'Index   Err_dX   Err_dY   Err_dZ   Err_cX   Err_cY   Err_cZ   |Error|\n');
             for i = 1:size(errors, 1)
-                fprintf(fid, '%5d  %9.4f  %9.4f  %9.4f  %9.4f\n', ...
-                        i, errors(i,1), errors(i,2), errors(i,3), errorMag(i));
+                fprintf(fid, '%5d  %8.3f  %8.3f  %8.3f  %8.3f  %8.3f  %8.3f  %9.4f\n', ...
+                        i, errors(i,1), errors(i,2), errors(i,3), ...
+                        errors(i,4), errors(i,5), errors(i,6), errorMag(i));
             end
+
         else
             fprintf(fid, 'Debug output file not found for comparison.\n');
         end
@@ -90,4 +98,5 @@ function write_aux_file(letter_index, mode, search_method, ...
     fclose(fid);
     fprintf('Auxiliary file written to pa3-%s-%s-%s-aux.txt.\n', letter_index, mode, search_method);
 end
+
 
