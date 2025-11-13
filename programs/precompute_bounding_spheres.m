@@ -17,10 +17,10 @@ function mesh = precompute_bounding_spheres(mesh)
         v2 = mesh.vertices(v_indices(2), :);
         v3 = mesh.vertices(v_indices(3), :);
         
-        % Centroid of triangle
+        % centroid of triangle
         center = (v1 + v2 + v3) / 3;
         
-        % Radius is max distance from center to any vertex
+        % radius is max distance from center to any vertex
         d1 = norm(v1 - center);
         d2 = norm(v2 - center);
         d3 = norm(v3 - center);
