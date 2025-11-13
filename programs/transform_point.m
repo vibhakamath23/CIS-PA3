@@ -10,15 +10,15 @@ function p_out = transform_point(F, p_in)
 %
 % Transformation: p_out = F.R * p_in + F.p
 
-    % Ensure p_in is a column vector
+    % check p_in is a column vector
     if size(p_in, 1) == 1
         p_in = p_in';
     end
     
-    % Extract rotation and translation
+    % extract rotation and translation
     R = F(1:3, 1:3);
     p = F(1:3, 4);
     
-    % Apply transformation
-    p_out = (R * p_in + p)';  % Return as row vector
+    % apply transform
+    p_out = (R * p_in + p)';  % return as row vector
 end
