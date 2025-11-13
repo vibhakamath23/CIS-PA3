@@ -17,11 +17,11 @@ function write_output3(output_filename, N_samps, d_k, c_k, diff_mag)
         error('Cannot open output file: %s', output_filename);
     end
     
-    % Write header
+    % header
     [~, name, ext] = fileparts(output_filename);
     fprintf(fid, '%d, %s%s\n', N_samps, name, ext);
     
-    % Write data for each sample
+    % data for each sample
     for i = 1:N_samps
         fprintf(fid, '%8.2f, %8.2f, %8.2f, %8.2f, %8.2f, %8.2f, %8.3f\n', ...
                 d_k(i, 1), d_k(i, 2), d_k(i, 3), ...
