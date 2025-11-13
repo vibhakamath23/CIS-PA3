@@ -27,10 +27,10 @@ function samples = read_sample_file(filename, bodyA, bodyB)
         error('Cannot open file: %s', filename);
     end
     
-    % Read first line
+    % first line
     line = fgetl(fid);
     
-    % Extract all numbers from the first line
+    % extract all numbers from the first line
     number_strings = regexp(line, '[-\d.]+', 'match');
     
     numbers = str2double(number_strings);
@@ -38,7 +38,7 @@ function samples = read_sample_file(filename, bodyA, bodyB)
     N_S = round(numbers(1));  % Total markers per frame
     samples.N_samps = round(numbers(2));
     
-    % Extract filename from the line
+    % extract filename from the line
     tokens = strsplit(line, ',');
     if length(tokens) >= 3
         samples.filename = strtrim(tokens{3});
@@ -50,7 +50,7 @@ function samples = read_sample_file(filename, bodyA, bodyB)
 
     all_markers = zeros(N_S, 3, samples.N_samps);
     
-    % Read each frame
+    % read each frame
     for frame = 1:samples.N_samps
         for i = 1:N_S
             line = fgetl(fid);
@@ -67,11 +67,11 @@ function samples = read_sample_file(filename, bodyA, bodyB)
     
     fclose(fid);
     
-    % Store the full marker array
+    % store the full marker array
     samples.all_markers = all_markers;
     samples.N_S = N_S;
 
-    % Split markers
+    % split markers
     samples = split_marker_values(samples, bodyA, bodyB);
     
     fprintf('Sample file loaded: %d markers x %d frames\n', N_S, samples.N_samps);
