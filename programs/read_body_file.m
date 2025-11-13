@@ -37,7 +37,7 @@ function body = read_body_file(filename)
     for i = 1:body.N_markers
         line = fgetl(fid);
 
-        % Parse comma or space separated values
+        % handle commas or spaces
         values = str2double(regexp(line, '[-\d.]+', 'match'));
         
         body.markers(i, :) = values(1:3);
