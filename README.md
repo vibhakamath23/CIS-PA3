@@ -8,6 +8,14 @@
 
 - **Unknown Files**: In the format `PA3-Unknown-[G,H,J]-.....txt`, each letter file contain only input data, used to produce final results with `pa3.m`.
 
+### Output
+
+- **Output Files from Debug Input**: In the format `pa3-[a-f]-debug-Output.txt`, each file contains input output data from running `pa3.m` on the corresponding debug data.
+
+- - **Output Files from Unknown Input**: In the format `pa3-[g,h,j]-unknown-Output.txt`, each file contains input output data from running `pa3.m` on the corresponding unknown data.
+  
+- - **Auxiliary Files**: In the format `pa3-[a-h,j]-[unknown, debug]-[linear, octree, boundingSphere]-aux.txt`, each file contains runtime and error statistics for the corresponding data, mode, and search method
+
 ### Programs
 - `pa3.m`: Main executable for Programming Assignment 3. Runs the ICP pipeline — reads input files, computes pointer tip positions, finds closest points on the mesh surface, and writes output files with timing and error statistics.  
 
