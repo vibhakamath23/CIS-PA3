@@ -48,14 +48,6 @@ runtests('bounding_sphere_unit_tests')
 ```
 visualize_find_closest_point_tri_3D
 ```
-6. Unit tests for point cloud registration
-```
-runtests('test_frame_registration')
-```
-7. Visualization tests for point cloud registration
-```
-frame_registration_vizualization_test(42)
-```
 
 ## File Directory
 
