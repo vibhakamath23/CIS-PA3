@@ -1,4 +1,57 @@
 # CIS-PA3
+Programming Assignment 3 - CIS - Vibha Kamath and Aiza Maksutova
+
+# Running cis-pa3
+1. Download the zip file and unzip the file.
+2. Put folder with our implementation in a local temporary folder <YOUR PATH TO LOCAL FOLDER>:
+```
+cd
+cd <YOUR PATH TO LOCAL FOLDER>
+cd cis-pa3-main
+```
+
+4. Run in Matlab terminal:
+```
+cd programs/programs/
+pa3('mode','letter_index', 'search_method')
+```
+where mode - ['debug', 'unknown']; letter_index - ['a', ..., 'j'] depending on if the intended files to run are debug sets or unknown sets. 'search_method' - ['linear', 'octree', 'boundingSphere']; default search method is 'linear', so you can run the program just using mode and letter_index if you want to go with brute-force approach
+
+3. Check the results of completed programs in **/DIR_PATH/output/** folder of your parent directory. An output file with estimated results as well as an auxiliary file with any estimate errors will be produced in this folder. Note that auxiliary file point error analysis and runtime analysis will run dependent on a search method you chose earlier.
+Adjust the search method choice as desired for runtime analysis (faster approach - 'octree', slower approaches - ['linear', 'boundingSphere']), but mind that 'octree' and 'boundingSphere' take some time to build the data structure
+   
+# Running Tests
+
+Return to your main directory (DIR_PATH) and enter the tests folder, using:
+```
+cd ..
+cd tests
+```
+
+1. Unit tests for finding closest point on triangle
+```
+runtests('test_find_closest_point_tri')
+```
+2. Unit tests for octree construction and search
+```
+runtests('octree_unit_tests')
+```
+3. Unit tests for `d_k` computation and marker splitting
+```
+runtests('dk_unit_tests')
+```
+4. Unit tests for bounding spheres method
+```
+runtests('bounding_sphere_unit_tests')
+```
+5. Visualization test for finding closest point on triangle
+```
+visualize_find_closest_point_tri_3D
+```
+6. Unit tests for pivot calibration
+```
+runtests('test_pivot_calibration')
+```
 
 ## File Directory
 
