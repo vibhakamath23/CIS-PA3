@@ -130,9 +130,7 @@ runtests('test_pivot_calibration')
 
 - `sampleTriangle.m`: Helper function returning a fixed non-trivial 3D triangle for consistent testing across files.  
 
-- `visualize_find_closest_point_tri_3D.m`: Visualization utility that plots a 3D triangle and query points with their closest point projections for verification.  
-
-- `test_pivot_calibration.m`: Unit tests for pivot calibration, verifying known-solution recovery and error handling for edge cases.  
+- `visualize_find_closest_point_tri_3D.m`: Visualization utility that plots a 3D triangle and query points with their closest point projections for verification.   
 
 - `generate_random_data.m`: Generates a random centered 3D point set and true parameters for pivot calibration tests.  
 
