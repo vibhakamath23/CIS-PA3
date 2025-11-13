@@ -23,35 +23,35 @@ function mesh = read_mesh_file(filename)
         error('Cannot open file: %s', filename);
     end
     
-    % Read number of vertices
+    % read number of vertices
     line = fgetl(fid);
     mesh.N_vertices = str2double(strtrim(line));
     
-    % Read vertices
+    % read vertices
     mesh.vertices = zeros(mesh.N_vertices, 3);
     for i = 1:mesh.N_vertices
         line = fgetl(fid);
 
-        % Extract all numbers
+        % extract all numbers
         values = str2double(regexp(line, '[-\d.eE]+', 'match'));
 
         mesh.vertices(i, :) = values(1:3);
     end
     
-    % Read number of triangles
+    % read number of triangles
     line = fgetl(fid);
     mesh.N_triangles = str2double(strtrim(line));
     
-    % Read triangles
+    % read triangles
     mesh.triangles = zeros(mesh.N_triangles, 3);
     mesh.neighbors = zeros(mesh.N_triangles, 3);
     for i = 1:mesh.N_triangles
         line = fgetl(fid);
 
-        % Use regex to extract all numbers (handles negative indices for neighbors)
+        % use regex to extract all numbers (handles negative indices for neighbors)
         values = str2double(regexp(line, '[-\d.eE]+', 'match'));
 
-        % Convert from 0-based to 1-based indexing for MATLAB
+        % convert from 0-based to 1-based indexing for MATLAB
         mesh.triangles(i, :) = values(1:3) + 1;  % Add 1 for MATLAB indexing
         mesh.neighbors(i, :) = values(4:6) + 1;  % Add 1 for MATLAB indexing (note: -1 becomes 0, which is still invalid but not used)
     end
