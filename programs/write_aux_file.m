@@ -90,3 +90,4 @@ function write_aux_file(letter_index, mode, search_method, ...
     fclose(fid);
     fprintf('Auxiliary file written to pa3-%s-%s-%s-aux.txt.\n', letter_index, mode, search_method);
 end
+
