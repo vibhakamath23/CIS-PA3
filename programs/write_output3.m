@@ -2,7 +2,7 @@ function write_output3(output_filename, N_samps, d_k, c_k, diff_mag)
 % writeOutputPA3 - Writes output file for PA3
 %
 % Input:
-%   filename - Output filename (e.g., 'pa3-a-Output.txt')
+%   filename - Output filename 
 %   N_samps - Number of sample frames
 %   d_k - N_samps x 3 array of d_k coordinates
 %   c_k - N_samps x 3 array of c_k (closest point) coordinates
