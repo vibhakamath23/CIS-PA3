@@ -43,7 +43,7 @@ function pa3(mode, letter_index, search_method)
     
     % Directory config
     data_dir = '../Data';
-    output_dir = '../output';
+    output_dir = '../../output';
     
     % Create output directory if it doesn't exist
     if ~exist(output_dir, 'dir')
