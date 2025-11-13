@@ -118,11 +118,11 @@ visualize_find_closest_point_tri_3D
 
 - `dk_unit_tests.m`: Unit tests for `d_k` computation and marker splitting, verifying dimensions, identity transforms, and consistency across frames using random data.  
 
-- `create_random_body.m`: Generates random rigid body data (markers, tip, and name fields) for unit tests.  
+- `create_random_body.m`: Generates random rigid body data (markers, tip, and name fields) for `d_k` unit tests.  
 
 - `create_random_samples.m`: Generates random sample data (A, B, and dummy markers) for `d_k` unit tests.  
 
-- `bounding_sphere_unit_tests.m`: Unit tests for bounding sphere acceleration — checks correctness, early termination, and multi-triangle consistency.  
+- `bounding_sphere_unit_tests.m`: Unit tests for bounding sphere acceleration. Checks correctness, early termination, and multi-triangle consistency.  
 
 - `sampleTriangle.m`: Helper function returning a fixed non-trivial 3D triangle for consistent testing across files.  
 
