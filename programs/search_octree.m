@@ -36,7 +36,7 @@ function [point, min_dist] = search_octree(query, node, mesh)
     
     for i = 1:length(node.children)
         if ~isempty(node.children{i})
-            % Distance from query to child's bounding box
+            % distance from query to child's bounding box
             dist = point_to_box_distance(query, node.children{i}.min_bound, ...
                                         node.children{i}.max_bound);
             child_dists = [child_dists; dist];
@@ -54,7 +54,7 @@ function [point, min_dist] = search_octree(query, node, mesh)
     for idx = 1:length(valid_children)
         child_idx = valid_children(sort_idx(idx));
         
-        % early termination: if box distance exceeds current best, skip
+        % early termination: if box distance is larger than current best, skip
         if sorted_dists(idx) > min_dist
             continue;
         end
