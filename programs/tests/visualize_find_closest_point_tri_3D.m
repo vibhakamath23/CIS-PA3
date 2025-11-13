@@ -1,4 +1,5 @@
 function visualize_find_closest_point_tri_3D()
+    addpath('../programs');
     tri = sampleTriangle();
 
     % points to visualize
